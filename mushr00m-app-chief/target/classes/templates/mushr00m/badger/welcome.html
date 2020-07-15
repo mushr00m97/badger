@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>Welcome</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-Materia.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body style="background: black">
+<div class="container-fluid">
+	<div class="row">
+
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-4">
+				<img src="http://localhost/Bingo/gg1.png"/>
+
+				<video width="1024" height="768" controls autoplay="autoplay" style="margin-top: -45%">
+					<source src="http://localhost/Bingo/demo01.mp4" type="video/mp4">
+				</video>
+			</div>
+		</div>
+		<span style="color:white;font-size: 12px;">Badger * mushr00m Lab</span>
+	</div>
+</div>
+
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script>
+		fengCiData();
+
+		function fengCiData() {
+			$.post("/badger/fengCiData",function (data) {
+				layer.msg(data)
+			})
+		}
+	</script>
+</body>
+</html>

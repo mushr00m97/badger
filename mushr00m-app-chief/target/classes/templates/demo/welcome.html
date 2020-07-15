@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>MOON</title>
+<link rel="stylesheet" th:href="@{/moon/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="bg-b">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col text-center bg-warning text-white shadow">欢 迎 访
+				问</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col"></div>
+			<div class="col">
+				<div id="clock"></div>
+			</div>
+			<div class="col"></div>
+		</div>
+	</div>
+	<!-- js -->
+	<script th:src="@{/moon/js/analogClock.js}"></script>
+	<script th:inline="javascript">
+		//clock
+		AnalogClock("clock", {
+			bgColor : "transparent"
+		});
+	</script>
+</body>
+</html>

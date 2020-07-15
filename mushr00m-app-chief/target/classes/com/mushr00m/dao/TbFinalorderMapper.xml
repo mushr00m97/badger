@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mushr00m.dao.TbFinalorderMapper">
+  <resultMap id="BaseResultMap" type="com.mushr00m.entity.TbFinalorder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="pimg" jdbcType="VARCHAR" property="pimg" />
+    <result column="ownerid" jdbcType="INTEGER" property="ownerid" />
+    <result column="address" jdbcType="INTEGER" property="address" />
+  </resultMap>
+</mapper>

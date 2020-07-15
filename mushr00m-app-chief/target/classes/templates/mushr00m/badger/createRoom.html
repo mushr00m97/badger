@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8">
+    <title>商品上传</title>
+</head>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/upload/css/uploader.css}" />
+<link rel="stylesheet" th:href="@{/date/flatpickr.css}" />
+
+<body class="">
+<div class="container-fluid" id="app" style="overflow: auto">
+    <div class="row">
+        <div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">创建竞拍　　
+            <img :src="logo.address" width="100px" height="55px"/></div>
+    </div>
+
+    <div class="mt-2">
+        <div class="row mt-2">
+            <div class="col-3 ml-3 mt-3">
+                <img :src="product.img" width="120px" height="120px"/>
+            </div>
+            <div class="col-8 ml-2 p-2 mt-3">
+                <div class="form-control">
+                    <span>起拍价</span><input type="text" id="startprice" class="ml-1">
+                </div>
+                <div class="form-control">
+                    <span>竞拍截止期</span><input type="text" id="endtime" class="ml-1">
+                </div>
+                <div class="ml-2 form-inline">
+                    <input type="text" id="step" class="ml-1">￥
+                    <button class="btn btn-outline-dark ml-2" @click="makeRoom()">
+                        <i class="fa fa-plus">创建竞拍室</i>
+                    </button>
+                </div>
+
+                <div class="ml-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- js -->
+    <script th:src="@{/moon/js/jquery.js}"></script>
+    <script th:src="@{/moon/js/vue.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/moon/js/jquery.url.js}"></script>
+    <script th:src="@{/upload/js/uploader.js}"></script>
+    <script th:src="@{/date/flatpickr.js}"></script>
+    <script th:src="@{/moon/js/cookie.jwt.js}"></script>
+    <script th:inline="javascript">
+        var pid = [[${pid}]];
+
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                product:{},
+                logo:{}
+            },
+            methods:{
+                selectProduct:function () {
+                    $.post("/badgerProduct/selectProductByPID",
+                        {
+                            pid:pid
+                        },
+                    function (data) {
+                        app.product = data;
+
+                    })
+                },
+                showLogo:function () {
+                    $.post("/badger/showLogo",
+                        function (data) {
+                            app.logo = data;
+                        })
+                    $("#endtime").flatpickr({
+                        enableTime : true
+                    });
+                },
+                makeRoom:function () {
+                    $.post("/delay/makeRoom",
+                        {
+                            pid:pid,
+                            start:$("#startprice").val(),
+                            date:$("#endtime").val(),
+                            step:$("#step").val()
+                        },
+                    function (data) {
+                        if(data != 0){
+                            layer.msg("竞拍室以上架");
+                            window.parent.location.reload()
+                        }else{
+                            layer.msg("添加失败")
+                        }
+                    })
+                }
+            },
+            mounted:function () {
+                this.selectProduct();
+                this.showLogo();
+            },
+            filters:{
+
+            }
+        });
+
+
+    </script>
+</body>
+</html>

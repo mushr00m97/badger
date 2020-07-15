@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>用户收货地址</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="">
+	<div class="container-fluid" id="pp">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">Address Manage　　
+				<img :src="logo.address" width="100px" height="55px"/></div>
+		</div>
+
+
+		<!--条件查询inline-->
+		<div class="row mt-4 ">
+
+				<button class="btn btn-outline-dark ml-4" @click="addAddress()"><i class="fa fa-address-book"></i> 添加地址</button>
+			</div>
+
+
+
+		<!--收货地址显示-->
+		<div class="text-center" class="row mt-5" >
+			<table class="table">
+				<tr class="text-md-center" v-for="a in address"
+				style="font-size: 18px;font-weight: bolder">
+					<td>{{a.address}}</td>
+					<td>
+						<button class="btn btn-outline-danger"
+						@click="deleteAddress(a.id)">删除</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:inline="javascript">
+		var pp = new Vue({
+			el:"#pp",
+			data:{
+				address:[],
+				logo:{}
+			},
+			methods:{
+				showLogo:function () {
+					$.post("/badger/showLogo",
+							function (data) {
+								pp.logo = data;
+							})
+				},
+				addAddress:function () {
+					layer.open({type : 2,
+						content : "/address/goToCreateAddress",
+						area : [ "50%", "70%" ]})
+				},
+				selectAddress:function () {
+					$.post("/address/showAddress",
+					function (data) {
+						pp.address = data;
+					})
+				},
+				deleteAddress:function (data) {
+					$.post("/address/deleteAddress",
+							{
+								id:data
+							},
+					function (data) {
+						layer.msg("删除成功");
+						window.location.reload();
+					})
+				}
+
+			},
+			mounted:function () {
+				this.showLogo();
+				this.selectAddress();
+			},
+		})
+
+	</script>
+
+</body>
+</html>

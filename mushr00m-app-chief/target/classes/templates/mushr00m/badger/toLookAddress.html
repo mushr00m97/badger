@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8">
+    <title>商品上传</title>
+</head>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/upload/css/uploader.css}" />
+<body class="">
+<div class="container-fluid" id="app" style="overflow: auto">
+    <div class="row">
+        <div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">查看收货地址　
+            <img :src="logo.address" width="100px" height="55px"/></div>
+    </div>
+
+    <div class="mt-2">
+        <div class="row mt-2" >
+            <div class="col-6 ml-1 mt-3" style="font-size: 18px;font-weight: bolder;
+                    color: black">
+                收货地址：{{order.address}}
+            </div>
+
+            <div class="form-inline mt-1">
+                <button class="btn btn-outline-dark" @click="finishOrder()"><i class="fa fa-gift">去发货</i></button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- js -->
+    <script th:src="@{/moon/js/jquery.js}"></script>
+    <script th:src="@{/moon/js/vue.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/moon/js/jquery.url.js}"></script>
+    <script th:src="@{/upload/js/uploader.js}"></script>
+    <script th:src="@{/moon/js/cookie.jwt.js}"></script>
+    <script th:inline="javascript">
+        var ffid = [[${ffid}]];
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                order:{},
+                logo:{}
+            },
+            methods:{
+                showLogo:function () {
+                    $.post("/badger/showLogo",
+                        function (data) {
+                            app.logo = data;
+                        })
+                },
+                selectAddress:function () {
+                    $.post("/order/showAddressForOwner",
+                        {
+                            fid:ffid
+                        },
+                    function (data) {
+                        app.order = data;
+                    })
+                },
+                finishOrder:function () {
+                    $.post("/order/finishOrder",{
+                        fid:ffid,
+                    },function (data) {
+                        if(data!=0){
+                            layer.msg("订单完成");
+                            window.parent.location.reload();
+                        }
+                    })
+                }
+            },
+            mounted:function () {
+                this.showLogo();
+                this.selectAddress();
+            },
+            filters:{
+                filterBTN:function (val) {
+                    if(val == 0){
+                        return "等待支付"
+                    }else if(val == 1){
+                        return "去发货"
+                    }else{
+                        return ""
+                    }
+                }
+            }
+        });
+
+
+    </script>
+</body>
+</html>

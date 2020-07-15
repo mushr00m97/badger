@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>Mushr00m-Center-Login</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/menu/metisMenu.css}" />
+<link rel="stylesheet" th:href="@{/menu/vertical.css}" />
+</head>
+<body class="bg-a">
+	<div class="container-fluid h-100" style="overflow: hidden;">
+		<!-- 标题栏 -->
+		<div class="row">
+			<div class="col-5"></div>
+			<div class="col-4">
+
+				<div class="card  mt-2">
+					<div class="card-header" style="background: black">
+						<h5 class="text-center mt-2 text-white text-sm-center" style="font-family: 'Microsoft YaHei'
+						,SimHei;font-size: 12px">
+							<i class="fa fa-modx text-white text-sm-center"></i>&nbsp;Mushr00m / Center-Lite 1.9
+						</h5>
+					</div>
+					<div class="form form-inline-lg p-2">
+						<span class="ml-2 " style="font-weight: bold">username or email</span>
+						<input type="text" class="form form-control ml-1">
+					</div>
+					<div class="form form-inline-lg mt-2 p-2">
+						<span class="ml-2" style="font-weight: bold">password</span>
+						<input type="text" class="form form-control ml-1">
+					</div>
+
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-4 mt-1 p-1"></div>
+								<div class="col-4 ml-2">
+									<button class="btn btn-outline-dark">LOGIN</button>
+								</div>
+							</div>
+					</div>
+				</div>
+
+				<div class="form form-inline row">
+					<div class="col-9"></div>
+					<div style="color:white" class="col-3 border-dark">注册账号</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/bootstrap.js}"></script>
+	<script th:src="@{/moon/js/cookie.jwt.js}"></script>
+	<script th:inline="javascript">
+
+	</script>
+</body>
+</html>

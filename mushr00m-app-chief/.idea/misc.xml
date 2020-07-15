@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../mushr00m-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/../../mushr00m-framework-castle/mushr00m-app-stammer/pom.xml" />
+        <option value="$PROJECT_DIR$/../mushr00m-app-stammer/pom.xml" />
+        <option value="$PROJECT_DIR$/../mushr00m-bitter/pom.xml" />
+        <option value="$PROJECT_DIR$/../mushr00m-app-bitter/pom.xml" />
+        <option value="$PROJECT_DIR$/../mushr00m-app-accounts/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
+  </component>
+</project>

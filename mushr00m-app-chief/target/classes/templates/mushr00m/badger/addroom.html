@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8">
+    <title>商品上传</title>
+</head>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/upload/css/uploader.css}" />
+<body class="">
+<div class="container-fluid" id="app" style="overflow: auto">
+    <div class="row">
+        <div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">创建竞拍　　
+            <img :src="logo.address" width="100px" height="55px"/></div>
+    </div>
+
+    <div class="mt-2">
+        <div>只有上架的商品才可以创建竞拍室噢 (o_o)</div>
+        <div class="row mt-2" style="overflow-y: auto;overflow-x: hidden;">
+            <div class="col-3 mt-3" v-for="p in product">
+                <img :src="p.img" width="200px" height="200px" style="text-align: center;"
+                @click="createRoom(p.id)"/>
+                <div class="text-black font-weight-bolder">　{{p.name}}</div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- js -->
+    <script th:src="@{/moon/js/jquery.js}"></script>
+    <script th:src="@{/moon/js/vue.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/moon/js/jquery.url.js}"></script>
+    <script th:src="@{/upload/js/uploader.js}"></script>
+    <script th:src="@{/moon/js/cookie.jwt.js}"></script>
+    <script th:inline="javascript">
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                product:[],
+                logo:{}
+            },
+            methods:{
+                selectProduct:function () {
+                    $.post("/badgerRoom/selectProductsByUID",
+                    function (data) {
+                        app.product = data;
+
+                    })
+                },
+
+                showLogo:function () {
+                    $.post("/badger/showLogo",
+                        function (data) {
+                            app.logo = data;
+                        })
+                },
+                createRoom:function (pid) {
+                    layer.open({type : 2,
+                        content : "/badgerRoom/GoToCreateRoom?pid="+pid ,
+                        area : [ "60%", "60%" ]})
+                }
+            },
+            mounted:function () {
+                this.selectProduct();
+                this.showLogo();
+            },
+            filters:{
+
+            }
+        });
+
+
+    </script>
+</body>
+</html>

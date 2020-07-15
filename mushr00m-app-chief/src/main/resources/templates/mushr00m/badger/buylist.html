@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>竞拍室管理</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="">
+	<div class="container-fluid" id="app">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">我的买入　　
+				<img :src="logo.address" width="100px" height="55px"/></div>
+		</div>
+
+
+		<!--条件查询inline-->
+		<div class="row mt-4 ">
+			<div class="form-inline ml-2 col-7">
+
+				<span class="ml-3">订单状态</span>
+				<select id="cond">
+					<option value="0"> 待支付订单</option>
+					<option value="1"> 以支付订单</option>
+					<option value="2"> 已完成订单</option>
+				</select>
+
+				<button class="btn btn-outline-dark ml-4" @click="selectOrdersByCond()"><i class="fa fa-search-minus"></i> 搜索</button>
+
+				<button class="ml-1 btn btn-outline-danger" @click="myAddress()"><i class="fa fa-motorcycle">我的地址</i> </button>
+			</div>
+
+		</div>
+
+		<!--订单显示-->
+		<div class="row mt-2">
+			<table class="table">
+				<tr>
+					<td>商品图片</td>
+					<td>商品名称</td>
+					<td>价格</td>
+					<td>订单时间</td>
+					<td>　</td>
+				</tr>
+				<tr v-for="o in orders">
+					<td><img :src="o.pimg" width="60px" height="60px"/></td>
+					<td>{{o.pname}}</td>
+					<td>{{o.price}}</td>
+					<td>{{o.createtime|filterDate}}</td>
+					<td><div v-if="o.state == 0"><button class="btn btn-outline-warning"
+					@click="toAddAddress(o.id)">去支付</button></div>
+						<div v-else-if="o.state == 1">等待卖家发货</div>
+						<div v-else="o.state == 2">以完成</div>
+					</td>
+					<td><div id="state" style="display: none;">{{o.state}}</div></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:inline="javascript">
+		var app = new Vue({
+			el:"#app",
+			data:{
+				logo:{},
+				orders:[]
+			},
+			methods:{
+				showOrders:function () {
+					$.post("/order/selectFinalOrdersByCond",
+							{
+								cond:"0"
+							},
+					function (data) {
+						app.orders = data;
+					})
+				},
+				showLogo:function () {
+					$.post("/badger/showLogo",
+							function (data) {
+								app.logo = data;
+							})
+				},
+				myAddress:function () {
+					location.href="/address/goToAddressView";
+				},
+				selectOrdersByCond:function(){
+					$.post("/order/selectFinalOrdersByCond",{
+						cond:$("#cond").val()
+					},
+					function (data) {
+						app.orders = data;
+					})
+				},
+				toAddAddress:function (data) {
+					layer.open({type : 2,
+						content : "/order/toAddAddress?fid="+data ,
+						area : [ "90%", "50%" ]})
+				}
+			},
+			mounted:function () {
+				this.showLogo();
+				this.showOrders();
+			},
+			filters:{
+				filterDate:function (val) {
+					return $.msfmt.todate(val,true,8)
+				},
+				filterBTN:function (val) {
+					if(val == 0){
+						return "去支付"
+					}else if(val == 1){
+						return "等待发货"
+					}else{
+						return ""
+					}
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>

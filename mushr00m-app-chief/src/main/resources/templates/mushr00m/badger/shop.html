@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>Welcome</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="">
+	<div class="container-fluid" id="pp">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">mushr00m x Auction　　
+				<img :src="logo.address" width="100px" height="55px"/></div>
+		</div>
+
+
+		<!--条件查询inline-->
+		<div class="row mt-4 ">
+			<div class="form-inline ml-2 col-7">
+				<span>按类型搜索</span>
+				<select id="type">
+					<option value="0">All</option>
+					<option v-for="t in type" :value="t.id">{{t.type}}</option>
+				</select>
+
+				<span class="ml-3">按条件排序</span>
+				<select id="cond">
+					<option value="0"> 默认</option>
+					<option value="1"> 时间升序</option>
+					<option value="2"> 时间降序</option>
+				</select>
+
+			</div>
+
+			<div class="form-inline col-4">
+				<input type="text" name="text" class="form-control" id="text" value="">
+				<button class="btn btn-outline-success" @click="selectByCond()"><i class="fa fa-search-minus"></i> 搜索</button>
+			</div>
+		</div>
+
+
+		<!-- 'http://localhost/badger/'+ -->
+		<!--商品显示-->
+		<div class="text-center" class="row mt-5" >
+			<div class="col-3 text-center mt-2" v-for="p in product">
+				<img :src="p.img" height="200px" width="200px" @click="goToRoomList(p.id)">
+				<div class="text-black font-weight-bolder">{{p.name}}</div>
+				<div class="text-black">{{p.account}}</div>
+				<div class="text-black font-weight-bold">发布于：{{p.createtime|filterDate}}</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:inline="javascript">
+		var pp = new Vue({
+			el:"#pp",
+			data:{
+				type:[],
+				product:[],
+				logo:{}
+			},
+			methods:{
+				showType:function () {
+					$.post("/badger/selectAllType",
+					function (data) {
+						pp.type = data;
+					})
+				},
+				selectByCond:function () {
+					$.post("/badger/selectByCond",
+							{
+								type:$("#type").val(),
+								cond:$("#cond").val(),
+								text:$("#text").val()
+
+							},function (data) {
+								pp.product = data;
+							})
+				},
+				selectAllProduct:function () {
+					$.post("/badger/selectAllProduct",
+					function (data) {
+						pp.product  = data;
+					})
+				},goToRoomList:function (data) {
+					pid = data;
+					location.href="/badger/goToRoomView?pid="+pid;
+				},
+				showLogo:function () {
+					$.post("/badger/showLogo",
+					function (data) {
+						pp.logo = data;
+					})
+				}
+
+			},
+			mounted:function () {
+				this.showType();
+				this.selectAllProduct();
+				this.showLogo();
+			},
+			filters:{
+				filterDate:function (val) {
+					return $.msfmt.todate(val,true,8)
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>

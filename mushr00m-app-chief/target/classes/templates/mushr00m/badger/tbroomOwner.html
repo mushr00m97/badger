@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>竞拍室</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-Materia.css}" />
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-Materia-CC.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+
+	<style>
+		body,html{ height: 100%; }
+		*{ margin: 0; padding: 0; }
+
+		.testBefore,.testAfter{
+			background: rgba(0,0,0,1);
+			width: 100%;
+			height: 180px;
+			text-align: center;
+		}
+		h1{
+			color: #FFF;
+			font-size: 60px;
+			line-height: 80px;
+		}
+	</style>
+</head>
+<body class="">
+	<div class="container-fluid" id="app">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(255,52,25,0.75)">Badger☆TbRoom　　
+				<img :src="logo.address" width="100px" height="55px"/>
+			</div>
+		</div>
+
+		<div class="testBefore" v-for="p in product">
+			<div class="row">
+			<div class="col-3" >
+				<img :src="p.img" width="160px" height="160px" class="mt-1"/>
+			</div>
+			<div class="col-3 mt-3 p-3" >
+				<div class="text-white font-weight-bolder" style="font-size:28px">{{p.name}}</div>
+				<div class="text-white" style="font-size:20px">发布者：{{p.account}}</div>
+				<div class="text-white" style="font-size:18px">商品上架时间：{{p.createtime|filterDate}}</div>
+			</div>
+			<div class="col-3 mt-3"></div>
+			<div class="col-3">
+
+				<div class="p-4">
+					<div style="color: white">当前价：</div>
+					<span style="font-size:48px;color:greenyellow;font-weight: bold;
+					font-family: 'Microsoft YaHei', SimHei">￥{{room.maxprice}}</span></div>
+				<div style="font-size: 18px;color: white">起拍价：{{room.startprice}}</div>
+			</div>
+			</div>
+		</div>
+
+
+		<div class="fixedBg">
+			<div>
+			<div class="row" >
+				<div class="card col-2 ml-3 mt-4" v-for="m in msgdata"
+					 style="background-color: rgba(255,255,255,0.55)"  >
+
+					<div class="card-header text-center" style="background-color:black">
+						<span style="font-size: 28px;color:white">{{m.sender}}</span>
+						<span style="font-size:22px;color:orangered">{{m.time}}</span>
+					</div>
+					<div class="card-body text-center" style="font-size:18px;color:black">出价：{{m.price}}</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+
+		<div class="testAfter" >
+			<div class="row" >
+				<div class="col-1"></div>
+				<div class="col-4 mt-4 text-left" style="color: white;" >
+					<div>
+					<div>起拍时间：{{room.createtime|filterDate}}</div>
+					<div class="mt-1">起拍价格：￥{{room.startprice}}</div>
+					<div style="font-size: 18px;color:white;font-weight: bold;">
+						距离结束还有：
+					</div>
+					</div>
+					<div id="timer" style="font-size: 36px;
+					color:white;font-weight: bold;
+					font-family: 'Microsoft YaHei', SimHei"
+						 class="text-white">LL</div>
+				</div>
+
+
+
+				<div class="col-2"></div>
+				<!--<div class="col-4 " style="margin-top: 20px;">-->
+					<!--<div class="text-white row" style="font-size:14px" id="stepRule"></div>-->
+					<!--<div class="row form-inline" style="margin-top:40px">-->
+						<!--<span style="color: white;font-size:28px">￥</span>-->
+						<!--<input type="text" class=" text-center" id="price" style="width: 200px;height:60px;font-size:28px">-->
+						<!--<button class="btn btn-lg btn-outline-light" style="width: 120px;height: 60px" @click="pushPrice()">发起报价</button>-->
+					<!--</div>-->
+				<!--</div>-->
+				<div class="col-1">
+					<button class="btn btn-outline-light mr-1" style="margin-top: 60px" @click="quit()">
+						<i class="fa fa-window-close-o fa-4x"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:src="@{/moon/js/cookie.jwt.js}"></script>
+	<script th:src="@{/mushr00m/js/countdown.js}"></script>
+	<script th:inline="javascript">
+
+		var rid = $.url(true).param("rid");
+		var endd;
+
+
+		//websocket
+		var user = $.getckjwt("token");
+
+		var api = "ws://"+location.host+"/BadgerPush";
+		var ws = new WebSocket(api);
+		ws.onmessage = function (ev) {
+			app.msgdata.push(JSON.parse(ev.data));
+			//出价成功后更新当前页面的最高价显示
+			app.getBasicRoomItems();
+			app.stepRule();
+		};
+
+		var app = new Vue({
+			el:"#app",
+			data:{
+				product:[],
+				room:{},
+				msgdata:[],
+				endtime:1000000000000000,
+				stepprice:{},
+				logo:{}
+			},
+			methods:{
+				getBasicRoomItems:function () {
+					$.post("/badger/TbRoom/getBasicRoomItemsC",
+							{
+								rid:rid
+							},
+							function (data) {
+								app.room = data;
+							})
+				},
+				getBasicRoomProductItems:function () {
+					$.post("/badger/TbRoom/getBasicRoomProductItems",
+							{
+								rid:rid
+							},
+							function (data) {
+								app.product = data;
+							})
+				},
+				pushPrice:function () {
+					var pa = $("#price").val();
+					var pb = app.stepprice;
+					var pc = app.room.maxprice
+					if ((pa-pc)<pb) {
+						layer.msg("出价不符合加价规则")
+					} else {
+						$.post("/badger/Tb/configMax",
+								{
+									rid: rid,
+									myprice: $("#price").val()
+								},
+								function (data) {
+									if (data == 0) {
+										layer.msg("您的出价低于当前最高价，请重新出价")
+									} else if (data == 1) {
+										ws.send($("#price").val());
+										$("#price").val();
+									} else if (data == 3){
+										layer.msg("出价记录收录失败")
+									}else{
+										layer.msg("出价失败，すみません :(")
+									}
+								})
+
+					}
+				},
+				quit:function () {
+					window.close();
+				},
+				countdown:function () {
+					$.post("/badger/TbRoom/getEndTime",
+							{
+								rid:rid
+							},function (data) {
+								app.roomm = data;
+								new Countdown(document.getElementById('timer'),{
+									format: "hh小时mm分ss秒",
+									lastTime: data.endtime
+								});
+							})
+
+				},
+				stepRule:function () {
+					$.post("/badger/tbRoom/getStepPrice",
+							{
+								rid:rid
+							},
+					function (data) {
+						app.stepprice = data;
+						$("#stepRule").text("　　加价额度为: ￥"+data);
+					})
+				},
+				showLogo:function () {
+					$.post("/badger/showLogo",
+							function (data) {
+								app.logo = data;
+							})
+				}
+
+			},mounted:function () {
+				this.getBasicRoomItems();
+				this.getBasicRoomProductItems();
+				this.countdown();
+				this.stepRule();
+				this.showLogo();
+			},filters:{
+				filterDate:function (data) {
+					return $.msfmt.todate(data,true,8);
+				}
+			}
+		});
+
+	</script>
+
+</body>
+</html>

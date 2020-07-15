@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8">
+    <title>新建地址</title>
+</head>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/upload/css/uploader.css}" />
+<link rel="stylesheet" th:href="@{/date/flatpickr.css}" />
+
+<body class="">
+<div class="container-fluid" id="app" style="overflow: auto">
+    <div class="row">
+        <div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">新建地址　　
+            <img :src="logo.address" width="100px" height="55px"/></div>
+    </div>
+
+    <div class="mt-2">
+        <div class="row mt-2">
+            <div class="col-8 ml-2 p-2 mt-3">
+                <div class="form-control">
+                    <span>省市</span><input type="text" id="address1" class="ml-1">
+                </div>
+                <div class="form-control">
+                    <span>区县</span><input type="text" id="address2" class="ml-1">
+                </div>
+                <div class="form-control">
+                    <span>街道门户</span><input type="text" id="address3" class="ml-1">
+                </div>
+                <div class="form-control">
+                    <span>收件人(姓名+电话)</span><input type="text" id="address4" class="ml-1">
+                </div>
+
+                <div class="ml-2 form-inline">
+                    <button class="btn btn-outline-dark ml-2" @click="makeAddress()">
+                        <i class="fa fa-plus">添加地址</i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- js -->
+    <script th:src="@{/moon/js/jquery.js}"></script>
+    <script th:src="@{/moon/js/vue.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/moon/js/jquery.url.js}"></script>
+    <script th:src="@{/upload/js/uploader.js}"></script>
+    <script th:src="@{/date/flatpickr.js}"></script>
+    <script th:src="@{/moon/js/cookie.jwt.js}"></script>
+    <script th:inline="javascript">
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                logo:{}
+            },
+            methods:{
+
+                showLogo:function () {
+                    $.post("/badger/showLogo",
+                        function (data) {
+                            app.logo = data;
+                        })
+                    $("#endtime").flatpickr({
+                        enableTime : true
+                    });
+                },
+                makeAddress:function () {
+                    $.post("/address/makeAddress",
+                        {
+                            address1:$("#address1").val(),
+                            address2:$("#address2").val(),
+                            address3:$("#address3").val(),
+                            address4:$("#address4").val()
+                        },
+                    function (data) {
+                        if(data != 0){
+                            layer.msg("地址新建成功");
+                            window.parent.location.reload()
+                        }else{
+                            layer.msg("添加失败")
+                        }
+                    })
+                }
+            },
+            mounted:function () {
+                this.selectProduct();
+                this.showLogo();
+            },
+            filters:{
+
+            }
+        });
+
+
+    </script>
+</body>
+</html>

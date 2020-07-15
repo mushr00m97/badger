@@ -1,0 +1,32 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- properties加载 -->
+	<properties resource="application.properties" />
+	<context id="mysql" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+		<!-- 实体类可序列化 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<!-- 通用mapper插件配置 -->
+		<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+			<property name="mappers" value="tk.mybatis.mapper.common.Mapper" />
+		</plugin>
+		<!-- jdbc配置 -->
+		<jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+			connectionURL="${spring.datasource.url}" userId="${spring.datasource.username}"
+			password="${spring.datasource.password}">
+		</jdbcConnection>
+		<!-- 实体类/接口/接口xml配置 -->
+		<javaModelGenerator targetPackage="${autocoder.persist.entity}"
+			targetProject="${autocoder.project.src}" />
+		<sqlMapGenerator targetPackage="${autocoder.persist.dao}"
+			targetProject="${autocoder.project.src}" />
+		<javaClientGenerator targetPackage="${autocoder.persist.dao}"
+			targetProject="${autocoder.project.src}" type="XMLMAPPER" />
+		<table tableName="%">
+			<generatedKey column="id" sqlStatement="JDBC" />
+		</table>
+	</context>
+</generatorConfiguration>

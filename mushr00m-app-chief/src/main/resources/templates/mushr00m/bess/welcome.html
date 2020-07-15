@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+<meta charset="UTF-8" />
+<title>Bess</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-Materia.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="bg-a">
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+				background: rgba(0,0,0,0.75)">BESS
+				<span class="col text-center-sm" style="font-size: 24px">Public Music</span></div>
+		</div>
+		<div class="row mt-3">
+			<div class="col"></div>
+			<div class="col">
+				<div id="clock"></div>
+			</div>
+			<div class="col"></div>
+		</div>
+	</div>
+	<!-- js -->
+	<script th:src="@{/moon/js/analogClock.js}"></script>
+	<script th:inline="javascript">
+		//clock
+		AnalogClock("clock", {
+			bgColor : "transparent"
+		});
+	</script>
+</body>
+</html>

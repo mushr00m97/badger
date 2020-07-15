@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>roomlist</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="">
+	<div class="container-fluid" id="app">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">RoomList　　
+				<img :src="logo.address" width="100px" height="55px"/>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-5 ml-4 mt-4 p-2 text-center">
+				<div v-for="p in product">
+				<img :src="p.img" height="400px" width="400px" />
+				<div class="ml-2" style="font-size: 28px;font-weight: bold">{{p.name}}</div>
+				<div class="ml-1">发布者：{{p.account}}</div>
+			</div>
+		</div>
+		<!--竞拍室列表-->
+			<div class="col-6 text-center mt-2 ml-1">
+
+				<!--条件查询inline-->
+				<div class="row mt-2 ">
+					<div class="form-inline">
+						<span class="">按时间排序 </span>
+						<select id="cond">
+							<option value="0"> 默认</option>
+							<option value="1"> 时间升序</option>
+							<option value="2"> 时间降序</option>
+						</select>
+
+						<div class="ml-2">
+							<span class="ml-1">按价格排序</span>
+							<input type="text" style="width: 90px" id="num1" value="0"> to
+							<input type="text" style="width: 90px" id="num2" value="0">
+						</div>
+
+						<div class="ml-1">
+							<button class="btn btn-outline-dark"><i class="fa fa-search-minus" @click="selectByCond()">查询</i> </button>
+						</div>
+					</div>
+
+				</div>
+
+				<table class="table mt-2">
+					<tr class=" text-lg-center">
+						<td>编号</td>
+						<td>当前价</td>
+						<td>　结束时间　</td>
+						<td> </td>
+					</tr>
+					<tr v-for="r in roomlist">
+						<td>{{r.id}}</td>
+						<td>￥ {{r.maxprice}}　</td>
+						<td>{{r.endtime|filterDate}}</td>
+						<td><button class="btn btn-outline-info" @click="GoToTdRoom(r.id)">进入竞拍室</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:inline="javascript">
+
+		var pdid = $.url(true).param("pid");
+
+		var app = new Vue({
+			el:"#app",
+			data:{
+				product:[],
+				roomlist:[],
+				logo:{}
+
+			},
+			methods:{
+				selectByCond:function () {
+					var num1 = $("#num1").val();
+					var num2 = 	$("#num2").val();
+					if(num1 == num2 && num1 == 0){
+						num1 = 0;
+						num2 = 0;
+					}
+					else if(num1>=num2){
+						layer.msg("num2 must larger than num1");
+						$("#num1").val("");
+						$("#num2").val("")
+					}
+					$.post("/badger/roomList/selectByCond",
+							{
+								cond:$("#cond").val(),
+								num1:num1,
+								num2:num2,
+								pid:pdid
+							},function (data) {
+								var length = Object.keys(data).length;
+								if(length == 0){
+									layer.msg("当前商品暂时没有竞拍室上线 :(")
+								}
+								app.roomlist = data;
+							})
+				},GoToTdRoom:function(data){
+					//location.href="/badger/toTbRoom?rid="+data;
+					window.open("/badger/toTbRoom?rid="+data,"_blank")
+				},
+				selectProductByPID:function () {
+					$.post("/badger/roomlist/selectProductByPID",
+							{
+								pid:pdid
+							},function (data) {
+								app.product = data;
+							})
+				},
+				showLogo:function () {
+					$.post("/badger/showLogo",
+							function (data) {
+								app.logo = data;
+							})
+				}
+			},
+			mounted:function () {
+				this.selectByCond();
+				this.selectProductByPID();
+				this.showLogo();
+			},
+			filters:{
+				filterDate:function (val) {
+					return $.msfmt.todate(val,true,8)
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>

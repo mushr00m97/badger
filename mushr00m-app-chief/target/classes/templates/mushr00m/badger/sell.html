@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>竞拍室管理</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-LUX.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+</head>
+<body class="">
+	<div class="container-fluid" id="pp">
+		<div class="row">
+			<div class="col text-center text-white shadow mt-1" style="font-size: 48px;
+background: rgba(0,0,0,0.75)">Badger x RoomManage　　
+				<img :src="logo.address" width="100px" height="55px"/></div>
+		</div>
+
+
+		<!--条件查询inline-->
+		<div class="row mt-4 ">
+			<div class="form-inline ml-2 col-7">
+
+				<span class="ml-3">订单状态</span>
+				<select id="cond">
+					<option value="1"> 在售竞拍</option>
+					<option value="0"> 历史拍卖</option>
+				</select>
+
+				<button class="btn btn-outline-dark ml-4" @click="selectRoomDetailByCond()"><i class="fa fa-search-minus"></i> 搜索</button>
+
+				<button class="btn btn-outline-dark ml-3" @click="addRoom()">
+					<i class="fa fa-plus-circle"></i> 添加竞拍室</button>
+			</div>
+
+		</div>
+
+		<!--竞拍室显示-->
+		<div class="row mt-2">
+			<table class="table">
+				<tr>
+					<td>拍卖商品</td>
+					<td>商品名称</td>
+					<td>起拍价</td>
+					<td>加价策略</td>
+					<td>当前最高价</td>
+					<td>结束时间</td>
+					<td>　</td>
+				</tr>
+				<tr v-for="r in roomDetail">
+					<td><img :src="r.img" width="60px" height="60px"/></td>
+					<td>{{r.name}}</td>
+					<td>{{r.startprice}}</td>
+					<td>{{r.stepprice}}</td>
+					<td>{{r.maxprice}}</td>
+					<td>{{r.endtime|filterDate}}</td>
+					<td><button class="btn btn-outline-warning"
+					@click="OwnertoTbRoom(r.id)">进入竞拍室</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/moon/js/vue.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/moon/js/jquery.url.js}"></script>
+	<script th:src="@{/moon/js/jquery.time.js}"></script>
+	<script th:inline="javascript">
+		var app = new Vue({
+			el:"#pp",
+			data:{
+				type:[],
+				product:[],
+				logo:{},
+				roomDetail:[]
+			},
+			methods:{
+				showType:function () {
+					$.post("/badger/selectAllType",
+					function (data) {
+						app.type = data;
+					})
+				},
+				showLogo:function () {
+					$.post("/badger/showLogo",
+							function (data) {
+								app.logo = data;
+							})
+				},
+				selectRoomDetailByCond:function () {
+					$.post("/badgerRoom/selectRoomDetailByCond",
+							{
+								cond:$("#cond").val()
+							},function (data) {
+								app.roomDetail = data
+							})
+				},
+				addRoom:function () {
+					location.href="/badgerRoom/goToAddRoom";
+				},
+				OwnertoTbRoom:function (id) {
+					window.open("/badgerRoom/OwnertoTbRoom?rid="+id,"_blank");
+				}
+
+			},
+			mounted:function () {
+				this.showType();
+				this.showLogo();
+				this.selectRoomDetailByCond();
+			},
+			filters:{
+				filterDate:function (val) {
+					return $.msfmt.todate(val,true,8)
+				},filterState:function (val) {
+					return (val==1)?"上架":"下架";
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>

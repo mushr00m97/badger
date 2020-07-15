@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mushr00m.dao.TbRoomMapper">
+  <resultMap id="BaseResultMap" type="com.mushr00m.entity.TbRoom">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+    <result column="startprice" jdbcType="INTEGER" property="startprice" />
+    <result column="stepprice" jdbcType="INTEGER" property="stepprice" />
+    <result column="maxprice" jdbcType="DOUBLE" property="maxprice" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+
+  <resultMap id="DetailResultMap" type="com.mushr00m.model.RoomDetail">
+    <!--
+      WARNING - Written by mushr00m
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+    <result column="startprice" jdbcType="INTEGER" property="startprice" />
+    <result column="stepprice" jdbcType="INTEGER" property="stepprice" />
+    <result column="maxprice" jdbcType="DOUBLE" property="maxprice" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+
+  </resultMap>
+
+  <select id="selectByUserId" resultMap="DetailResultMap">
+    select r.id,r.productid,r.startprice,r.stepprice,r.maxprice,
+    r.createtime,r.endtime,r.state,p.name,p.img
+    from tb_room r inner join tb_product p on r.productid = p.id
+    where p.userid = #{userid}
+    and r.state = #{state}
+  </select>
+
+</mapper>

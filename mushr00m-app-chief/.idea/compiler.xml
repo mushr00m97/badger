@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mushr00m-accounts" />
+        <module name="mushr00m-app-bitter" />
+        <module name="mushr00m-app-chief" />
+        <module name="mushr00m-app-stammer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mushr00m-accounts" target="1.6" />
+      <module name="mushr00m-app-accounts" target="1.6" />
+      <module name="mushr00m-app-bitter" target="1.6" />
+      <module name="mushr00m-app-chief" target="8" />
+      <module name="mushr00m-app-stammer" target="8" />
+      <module name="mushr00m-jieba" target="1.6" />
+      <module name="mushr00m-parent" target="1.6" />
+      <module name="stammer" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

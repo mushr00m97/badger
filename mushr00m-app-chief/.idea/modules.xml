@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../mushr00m-app-accounts/mushr00m-accounts.iml" filepath="$PROJECT_DIR$/../mushr00m-app-accounts/mushr00m-accounts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mushr00m-app-bitter/mushr00m-app-bitter.iml" filepath="$PROJECT_DIR$/../mushr00m-app-bitter/mushr00m-app-bitter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mushr00m-app-chief.iml" filepath="$PROJECT_DIR$/mushr00m-app-chief.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mushr00m-app-stammer/mushr00m-app-stammer.iml" filepath="$PROJECT_DIR$/../mushr00m-app-stammer/mushr00m-app-stammer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mushr00m-parent/mushr00m-parent.iml" filepath="$PROJECT_DIR$/../mushr00m-parent/mushr00m-parent.iml" />
+    </modules>
+  </component>
+</project>

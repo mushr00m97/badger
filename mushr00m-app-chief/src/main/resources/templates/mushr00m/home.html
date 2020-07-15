@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>Mushr00m-Center</title>
+<link rel="stylesheet" th:href="@{/mushr00m/css/bootstrap-mushr00m.css}" />
+<link rel="stylesheet" th:href="@{/icon/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/menu/metisMenu.css}" />
+<link rel="stylesheet" th:href="@{/menu/vertical.css}" />
+</head>
+<body class="bg-a">
+	<div class="container-fluid h-100" style="overflow: hidden;">
+		<!-- 标题栏 -->
+		<div class="row">
+			<div class="col"></div>
+			<div class="col">
+				<h5 class="text-center mt-2 text-white text-sm-center" style="font-family: 'Microsoft YaHei', SimHei">
+					<i class="fa fa-modx text-white text-sm-center"></i>&nbsp;Mushr00m / Center-Lite 1.9
+				</h5>
+			</div>
+			<div class="col text-right mt-2 text-white">
+				<div class="dropdown">
+					<button class="btn btn-sm btn-outline-success border-white dropdown-toggle"
+						data-toggle="dropdown">
+						<i class="fa fa-user-o text-white"></i>
+					</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:"
+							onclick="showCenter();">账号&nbsp;<span id="account"></span></a><a
+							class="dropdown-item" href="javascript:" onclick="logout();">注销</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2" style="height: 88%;">
+			<!-- 左侧 -->
+			<div class="col-sm-2">
+				<div class="sidebar-nav mt-1">
+					<div class="metismenu">
+						<ul>
+
+							<li><a href="javascript:" class="has-arrow"
+								   work="welcome" onclick="openWork(this);">Welcome Page</a>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow"
+								   work="BadgerWelcome" onclick="openWork(this);">Badger[蜗牛拍拍]</a>
+								<ul>
+									<li><a href="javascript:" class="" work="BadgerShop"
+										   onclick="openWork(this);"><i class="fa fa-slack">　商城</i></a></li>
+									<li><a href="javascript:" class="has-arrow">
+										<i class="fa fa-user-circle">　个人中心</i></a>
+										<ul>
+
+											<li><a href="javascript:" class="has-arrow">
+												<i class="fa fa-meh-o">　我的拍品</i></a>
+												<ul>
+													<li><a href="javascript:" class="" work="BadgerShelf"
+														   onclick="openWork(this);">
+														<i class="fa fa-hand-rock-o">　我的货架</i></a>
+													</li>
+													<li>
+														<a href="javascript:" class="" work="BadgerUpload"
+														   onclick="openWork(this);">
+														<i class="fa fa-plus-circle">　商品上传</i></a>
+														</li>
+												</ul>
+
+
+
+
+											</li>
+											<li>
+												<a href="javascript:" class="has-arrow">
+													<i class="fa fa-slack">　我的竞拍</i>
+												</a>
+												<ul>
+
+													<li><a href="javascript:" class="has-arrow">
+														<i class="fa fa-hand-rock-o">　我的订单</i></a>
+														<ul>
+
+															<li><a href="javascript:" class="" work="BadgerBuyList"
+																   onclick="openWork(this);">
+																<i class="fa fa-hand-scissors-o">　我买入的</i></a>
+															</li>
+															<li><a href="javascript:" class="" work="BadgerSoldList"
+																   onclick="openWork(this);">
+																<i class="fa fa-handshake-o">　我卖出的</i></a>
+															</li>
+														</ul>
+													</li>
+													<li><a href="javascript:" class="" work="BadgerSell"
+														   onclick="openWork(this);">
+														<i class="fa fa-plus-circle">　我的拍卖</i></a>
+													</li>
+
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow"
+								   work="BessWelcome" onclick="openWork(this);">Bess[Music]</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="BessMain"
+										onclick="openWork(this);">Music Band</a></li>
+									<li><a href="javascript:" class="has-arrow" work="BessPush"
+										onclick="openWork(this);">Music++</a></li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow"
+								   work="BitterWelcome" onclick="openWork(this);" >Bitter[Social]</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="BitterInfo"
+										   onclick="openWork(this);">info</a></li>
+									<li><a href="javascript:" class="has-arrow" work="BitterFriend"
+										onclick="openWork(this);">friends</a></li>
+									<li><a href="javascript:" class="has-arrow" work="BitterTrends"
+										   onclick="openWork(this);">trends</a></li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow" work="BingoMain"
+								   onclick="openWork(this);">Bingo[Game]</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="BingoPark"
+										   onclick="openWork(this);">Game Park</a></li>
+									<li><a href="javascript:" class="has-arrow" work="BingoStore"
+										   onclick="openWork(this);">Game Store</a></li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow" work="BusyWelcome"
+								   onclick="openWork(this);">Busy[Study Lab]</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="BingoMain"
+										   onclick="openWork(this);">Springboot专题</a>
+										<ul>
+											<li><a href="javascript:" class="has-arrow" work="BingoStore"
+												   onclick="openWork(this);">SB-1</a>
+											</li>
+											<li><a href="javascript:" class="has-arrow" work="BingoStore"
+												   onclick="openWork(this);">SB-2</a>
+											</li>
+										</ul>
+									</li>
+
+									<li><a href="javascript:" class="has-arrow" work="BingoStore"
+										   onclick="openWork(this);">认证与授权</a>
+										<ul>
+											<li><a href="javascript:" class="has-arrow" work="BingoStore"
+												   onclick="openWork(this);">token-1</a>
+											</li>
+											<li><a href="javascript:" class="has-arrow" work="BingoStore"
+												   onclick="openWork(this);">token-2</a>
+											</li>
+										</ul>
+									</li>
+
+									<li><a href="javascript:" class="has-arrow">消息队列</a>
+										<ul>
+											<li><a href="javascript:" class="has-arrow" work="MQmqlab1"
+												   onclick="openWork(this);">MQ-1</a>
+											</li>
+											<li><a href="javascript:" class="has-arrow" work="MQmqlab2"
+												   onclick="openWork(this);">MQ-2</a>
+											</li>
+										</ul>
+									</li>
+
+									<li><a href="javascript:" class="has-arrow">redis</a>
+										<ul>
+											<li><a href="javascript:" class="has-arrow" work="redisFengCi"
+												   onclick="openWork(this);">redis-倒排索引</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow">个人中心</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="OwnOeder"
+										onclick="openWork(this);">个人订单</a></li>
+									<li><a href="javascript:" class="has-arrow" work="OwnGoods"
+										onclick="openWork(this);">个人商品</a></li>
+
+							<li><a href="javascript:" class="has-arrow" work="OwnMoney"
+								   onclick="openWork(this);">个人账户</a></li>
+								</ul>
+							</li>
+
+
+							<li><a href="javascript:" class="has-arrow">其他产品</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="mushr00mEnt"
+										onclick="openWork(this);">mushr00m系列</a></li>
+									<li><a href="javascript:" class="has-arrow" work="eyouhiEnt"
+										   onclick="openWork(this);">eyouhi系列</a></li>
+								</ul>
+							</li>
+
+							<li><a href="javascript:" class="has-arrow">功能测试</a>
+								<ul>
+									<li><a href="javascript:" class="has-arrow" work="websocket"
+									onclick="openWork(this)">webSocket</a></li>
+								</ul>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 工作区 -->
+			<div class="col-sm-10">
+				<div id="work" class="h-100" style="margin-right: -32px;background: rgba(175,235,255,0.7)">
+					<iframe src="/openWork/welcome" frameborder="0" width="100%"
+						height="100%"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js -->
+	<script th:src="@{/moon/js/jquery.js}"></script>
+	<script th:src="@{/layer/layer.js}"></script>
+	<script th:src="@{/menu/metisMenu.js}"></script>
+	<script th:src="@{/moon/js/popper.js}"></script>
+	<script th:src="@{/moon/js/bootstrap.js}"></script>
+	<script th:src="@{/moon/js/cookie.jwt.js}"></script>
+	<script th:inline="javascript">
+		var userId;
+
+		//metisMenu
+		$(".metismenu").metisMenu();
+
+		//openWork
+		function openWork(obj) {
+			var iframe = "<iframe src='/openWork/" + $(obj).attr("work")
+					+ "' frameborder=0 width=100% height=100%></iframe>";
+			$("#work").html(iframe);
+		}
+
+		//token-account
+		if ($.cookie("token")) {
+			var p = $.getckjwt("token");
+			$("#account").text(p.account);
+			//alert(JSON.stringify(p));
+		}
+
+		//showCenter
+		function showCenter() {
+			var api = "http://120.55.53.172:7000/moon/SysUser/center?token="
+					+ $.cookie("token");
+			layer.open({
+				type : 2,
+				content : api,
+				area : [ "70%", "99%" ]
+			});
+		}
+
+		//logout
+		function logout() {
+			if(!$.cookie()){
+				layer.msg("没有用户登陆");
+				//return;
+			}
+			$.cookie("token","");
+			location.href="http://120.55.53.172:7000/moon/SysUser/logout";
+		}
+	</script>
+</body>
+</html>
